@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>cn.fintecher</groupId>
+    <artifactId>base-server</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>oauth2-server</module>
+        <module>common-utils</module>
+        <module>file-server</module>
+        <module>organize-server</module>
+        <module>lock-server</module>
+    </modules>
+
+    <properties>
+        <oauth.version>2.2.0.RELEASE</oauth.version>
+        <junit.version>4.11</junit.version>
+        <fastjson.version>1.2.24</fastjson.version>
+        <java.version>1.8</java.version>
+        <docker.registryUrl>localhost:5000</docker.registryUrl>
+        <docker.imageTag>1.0.1</docker.imageTag>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <fintecher-base-common-version>1.0-SNAPSHOT</fintecher-base-common-version>
+    </properties>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.4.7.RELEASE</version>
+    </parent>
+</project>
