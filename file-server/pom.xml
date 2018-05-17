@@ -13,5 +13,12 @@
     <groupId>cn.fintecher.file.server</groupId>
     <artifactId>file-server</artifactId>
 
+    <packaging>pom</packaging>
+
+
+    <modules>
+        <module>file-common</module>
+        <module>file-service</module>
+    </modules>
 
 </project>

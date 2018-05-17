@@ -1,0 +1,15 @@
+server:
+  port: 8081
+  contextPath: /dev
+spring:
+  output:
+    ansi:
+      enabled: never
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            ##设置连接超时时间 10秒
+            timeoutInMilliseconds: 10000
