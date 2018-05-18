@@ -1,0 +1,25 @@
+server:
+  port: 8087
+
+spring:
+  output:
+    ansi:
+      enabled: never
+
+  redis:
+    ##集群对外暴露的IP
+    host: XXXXXX
+    port: 33379
+    #连接超时时间3秒
+    timeout: 3000
+
+
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            ##设置连接超时时间 10秒
+            timeoutInMilliseconds: 10000
