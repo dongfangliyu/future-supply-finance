@@ -12,6 +12,23 @@
 
     <groupId>cn.fintecher.authorization</groupId>
     <artifactId>oauth2-server</artifactId>
+    <packaging>pom</packaging>
+
+    <properties>
+        <oauth.version>2.2.0.RELEASE</oauth.version>
+        <junit.version>4.11</junit.version>
+        <fastjson.version>1.2.24</fastjson.version>
+        <java.version>1.8</java.version>
+        <docker.registryUrl>222.73.56.12:5000</docker.registryUrl>
+        <docker.imageTag>1.0.1</docker.imageTag>
+    </properties>
+
+    <modules>
+        <module>authorization-conf</module>
+        <module>authorization-common</module>
+        <module>authorization-service</module>
+        <module>authorization-manager</module>
+    </modules>
 
 
 </project>
