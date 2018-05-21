@@ -10,6 +10,7 @@ import cn.fintecher.common.utils.FunctionSet;
 import cn.fintecher.common.utils.RoleSet;
 import cn.fintecher.common.utils.SerializeTool;
 import cn.fintecher.common.utils.basecommon.message.Message;
+import cn.fintecher.common.utils.basecommon.message.MessageType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,13 +47,13 @@ public class CustomizeUserDetailsService implements UserDetailsService {
                 throw new UsernameNotFoundException(msg);
             }
 
-            if (responseEntity.getBody().getStatus().endsWith("ERROR")) {
+            if (responseEntity.getBody().getCode()!= MessageType.MSG_SUCCESS) {
                 String msg = String.format("SysUserDetailsService SearchUserDetail response is error. %s", username);
                 throw new UsernameNotFoundException(msg);
             }
 
-            UserDetailInfo userDetailInfo = objectMapper.convertValue(responseEntity.getBody().getData(), UserDetailInfo.class);
-            
+            UserDetailInfo userDetailInfo = objectMapper.convertValue(responseEntity.getBody().getMessage(), UserDetailInfo.class);
+
             if (userDetailInfo == null) {
                 String msg = String.format("SysUserDetailsService SearchUserDetail convertValue is null. %s", username);
                 throw new UsernameNotFoundException(msg);
@@ -70,25 +71,25 @@ public class CustomizeUserDetailsService implements UserDetailsService {
                 }
                 customUserDetails.setAuthorities(authorities);
             }*/
-			
+
             List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
             Set<String> roles = new HashSet<String>();
             Set<String> functions = new HashSet<String>();
             if (userDetailInfo.getRoles() != null) {
                 for (RoleDetailInfo roleDetailInfo : userDetailInfo.getRoles()) {
-                    if (roleDetailInfo.getRole() != null)roles.add(roleDetailInfo.getRole()); 
+                    if (roleDetailInfo.getRole() != null)roles.add(roleDetailInfo.getRole());
                 }
             }
-            
+
             if (userDetailInfo.getFunctions() != null) {
                 for (FunctionDetailInfo functionDetailInfo: userDetailInfo.getFunctions()) {
-                    if (functionDetailInfo.getFunction() != null)functions.add(functionDetailInfo.getFunction()); 
+                    if (functionDetailInfo.getFunction() != null)functions.add(functionDetailInfo.getFunction());
                 }
             }
-            
+
             authorities.add(new SimpleGrantedAuthority(SerializeTool.toString(new RoleSet(roles), null, new FunctionSet(functions))));
             customUserDetails.setAuthorities(authorities);
-            
+
             return customUserDetails;
 
         } catch (Exception e) {
