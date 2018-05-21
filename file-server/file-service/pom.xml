@@ -31,8 +31,8 @@
         </dependency>
 
         <dependency>
-            <groupId>cn.fintecher</groupId>
-            <artifactId>filesystem-common</artifactId>
+            <groupId>cn.fintecher.file.server</groupId>
+            <artifactId>file-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
