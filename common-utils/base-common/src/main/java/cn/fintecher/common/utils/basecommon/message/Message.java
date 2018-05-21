@@ -9,11 +9,11 @@ public class Message {
 
     private String type = null;
 
-    private Object message = null;
+    private Object data = null;
 
-    public Message(Integer code, String type, Object message) {
+    public Message(Integer code, String type, Object data) {
         this.code = code;
         this.type = type;
-        this.message = message;
+        this.data = data;
     }
 }
