@@ -17,5 +17,17 @@
         <module>lock-service</module>
     </modules>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
 
+        <dependency>
+            <groupId>cn.fintecher.common.utils</groupId>
+            <artifactId>base-common</artifactId>
+            <version>${fintecher-base-common-version}</version>
+        </dependency>
+
+    </dependencies>
 </project>
