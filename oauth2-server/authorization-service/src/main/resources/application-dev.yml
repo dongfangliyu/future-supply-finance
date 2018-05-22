@@ -1,6 +1,6 @@
 server:
   port: 9090
-  contextPath: /authorization-server
+  contextPath: /authorization-service
 
 #security:
 #  oauth2:
@@ -52,4 +52,4 @@ authorization:
       url: http://localhost:8081/authorization-manager
 
 resourceServer:
-  resourceId: authorization-server
+  resourceId: authorization-service
