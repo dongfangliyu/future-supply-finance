@@ -1,0 +1,19 @@
+server:
+  port: 9091
+  contextPath: /authorization-agent
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+
+authorization:
+  manager:
+      url: http://10.10.1.64:8081/authorization-manager
+
+resourceServer:
+  resourceId: authorization-agent
+
+remoteTokenServices:
+  clientId: my-trusted-client-with-secret
+  clientSecret: somesecret
+  checkTokenEndpointUrl: http://10.10.1.64:9090/authorization-server/oauth/check_token
