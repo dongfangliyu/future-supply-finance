@@ -1,6 +1,6 @@
-package cn.fintecher.file.server.fileservice.service;
+package cn.fintecher.file.server.fileservice.fastdfs.service;
 
-import cn.fintecher.filesystem.common.message.Message;
+import cn.fintecher.file.server.filecommon.message.Message;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 public interface FileService {
 
     /**
-     * 图片上传至服务器
+     * 文件上传至服务器
      * @param multipartFile
      * @return
      */
@@ -27,5 +27,12 @@ public interface FileService {
      */
     @ResponseBody
     ResponseEntity fileDownLoad(@RequestParam("fullPath") String fullPath, @RequestParam("fileName") String fileName);
+
+    /**
+     * 文件删除
+     * @param fullPath
+     * @return
+     */
+    ResponseEntity <Message> fileDelete (@RequestParam("fullPath") String fullPath);
 
 }

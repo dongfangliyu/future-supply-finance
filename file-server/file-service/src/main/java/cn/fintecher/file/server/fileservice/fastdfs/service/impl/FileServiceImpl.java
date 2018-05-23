@@ -1,9 +1,9 @@
-package cn.fintecher.file.server.fileservice.service.impl;
+package cn.fintecher.file.server.fileservice.fastdfs.service.impl;
 
-import cn.fintecher.file.server.fileservice.service.FileService;
-import cn.fintecher.file.server.fileservice.utils.FastDFSUtils;
-import cn.fintecher.filesystem.common.message.Message;
-import cn.fintecher.filesystem.common.message.MessageType;
+import cn.fintecher.file.server.filecommon.message.Message;
+import cn.fintecher.file.server.filecommon.message.MessageType;
+import cn.fintecher.file.server.fileservice.fastdfs.service.FileService;
+import cn.fintecher.file.server.fileservice.fastdfs.utils.FastDFSUtils;
 import com.github.tobato.fastdfs.domain.StorePath;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -87,6 +87,25 @@ public class FileServiceImpl implements FileService {
         message.setStatus(MessageType.MSG_TYPE_ERROR);
         headers.setContentType(MediaType.APPLICATION_JSON);
         return new ResponseEntity(message, headers, HttpStatus.OK);
+    }
+
+    /**
+     * 文件删除
+     *
+     * @param fullPath
+     * @return
+     */
+    @Override
+    public ResponseEntity<Message> fileDelete(String fullPath) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        boolean flag = fastDFSUtils.deleteFile(fullPath);
+        Message message = new Message(MessageType.MSG_TYPE_SUCCESS);
+        if (!flag){
+            message.setStatus(MessageType.MSG_TYPE_ERROR);
+            message.setError("操作失败！");
+        }
+        return new ResponseEntity<Message>(message, headers, HttpStatus.OK);
     }
 
 }
