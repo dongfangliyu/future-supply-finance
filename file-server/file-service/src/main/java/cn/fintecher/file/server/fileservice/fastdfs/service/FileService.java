@@ -1,6 +1,6 @@
 package cn.fintecher.file.server.fileservice.fastdfs.service;
 
-import cn.fintecher.file.server.filecommon.message.Message;
+import cn.fintecher.common.utils.basecommon.message.Message;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;

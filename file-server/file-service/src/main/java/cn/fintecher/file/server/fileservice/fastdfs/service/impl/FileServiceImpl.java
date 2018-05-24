@@ -1,7 +1,7 @@
 package cn.fintecher.file.server.fileservice.fastdfs.service.impl;
 
-import cn.fintecher.file.server.filecommon.message.Message;
-import cn.fintecher.file.server.filecommon.message.MessageType;
+import cn.fintecher.common.utils.basecommon.message.Message;
+import cn.fintecher.common.utils.basecommon.message.MessageType;
 import cn.fintecher.file.server.fileservice.fastdfs.service.FileService;
 import cn.fintecher.file.server.fileservice.fastdfs.utils.FastDFSUtils;
 import com.github.tobato.fastdfs.domain.StorePath;
@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class FileServiceImpl implements FileService {
     private static final Logger logger = LoggerFactory.getLogger(FileServiceImpl.class);
+    private static final String MESSAGE_TYPE = "fastdfs-file-service";
 
     @Autowired
     FastDFSUtils fastDFSUtils;
@@ -34,21 +35,23 @@ public class FileServiceImpl implements FileService {
      */
     @Override
     public ResponseEntity<Message> fileUpload(MultipartFile multipartFile) {
-        Message message = new Message(MessageType.MSG_TYPE_SUCCESS);
+        Message message = null;
         StorePath storePath = null;
-        try {
-            storePath =  fastDFSUtils.uploadFile(multipartFile);
-            message.setData(storePath);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        if (null == storePath){
-            message.setStatus(MessageType.MSG_TYPE_ERROR);
-            message.setError("文件上传失败，请稍后重试！");
-        }
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        if (null != multipartFile){
+            try {
+                storePath =  fastDFSUtils.uploadFile(multipartFile);
+                message = new Message(MessageType.MSG_SUCCESS, MESSAGE_TYPE, storePath);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (null == storePath){
+                message = new Message(MessageType.MSG_ERROR, MESSAGE_TYPE, "文件上传失败，请稍后重试！");
+            }
+        } else {
+            message = new Message(MessageType.MSG_ERROR, MESSAGE_TYPE, "文件上传失败，请检查参数是否正确！");
+        }
         return new ResponseEntity<Message>(message, headers, HttpStatus.OK);
     }
 
@@ -60,33 +63,27 @@ public class FileServiceImpl implements FileService {
      */
     @Override
     public ResponseEntity fileDownLoad(String fullPath, String fileName) {
-        Message message = new Message(MessageType.MSG_TYPE_SUCCESS);
-        byte [] content = null;
         HttpHeaders headers = new HttpHeaders();
+        String msg = null;
         if (StringUtils.isBlank(fullPath) || StringUtils.isBlank(fileName)){
-            message.setError("文件下载失败，请检查参数是否正确：{fullPath : "+fullPath+", fileName : "+fileName+"}");
+            msg = "文件下载失败，请检查参数是否正确：{fullPath : "+fullPath+", fileName : "+fileName+"}";
         } else {
             StorePath storePath = FastDFSUtils.getStorePath(fullPath);
             try {
-                content = fastDFSUtils.downloadFile(storePath);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (null != content ){
-            try {
+                byte [] content = fastDFSUtils.downloadFile(storePath);
                 headers.setContentDispositionFormData("attachment", new String(fileName.getBytes("UTF-8"), "ISO-8859-1"));
                 headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+                return new ResponseEntity(content, headers, HttpStatus.CREATED);
             } catch (Exception e) {
                 e.printStackTrace();
+                msg = e.getMessage();
             }
-            return new ResponseEntity(content, headers, HttpStatus.CREATED);
-        } else {
-            message.setError("文件下载失败，请稍后重试！");
         }
-        message.setStatus(MessageType.MSG_TYPE_ERROR);
+        if (null == msg ){
+            msg = "文件下载失败，请稍后重试！";
+        }
         headers.setContentType(MediaType.APPLICATION_JSON);
-        return new ResponseEntity(message, headers, HttpStatus.OK);
+        return new ResponseEntity(new Message(MessageType.MSG_ERROR, MESSAGE_TYPE, msg), headers, HttpStatus.OK);
     }
 
     /**
@@ -97,13 +94,21 @@ public class FileServiceImpl implements FileService {
      */
     @Override
     public ResponseEntity<Message> fileDelete(String fullPath) {
+        Message message = new Message(MessageType.MSG_SUCCESS, MESSAGE_TYPE, null);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        boolean flag = fastDFSUtils.deleteFile(fullPath);
-        Message message = new Message(MessageType.MSG_TYPE_SUCCESS);
-        if (!flag){
-            message.setStatus(MessageType.MSG_TYPE_ERROR);
-            message.setError("操作失败！");
+        String msg = null;
+        try {
+            if (!fastDFSUtils.deleteFile(fullPath)) {
+                msg = "操作失败！";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            msg = e.getMessage();
+        }
+
+        if (null != msg){
+            message = new Message(MessageType.MSG_ERROR, MESSAGE_TYPE, msg);
         }
         return new ResponseEntity<Message>(message, headers, HttpStatus.OK);
     }

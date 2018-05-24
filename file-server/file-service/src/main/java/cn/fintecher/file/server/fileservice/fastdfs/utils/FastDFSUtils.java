@@ -90,18 +90,19 @@ public class FastDFSUtils {
      * @param fileUrl 文件访问地址
      * @return
      */
-    public boolean deleteFile(String fileUrl) {
+    public boolean deleteFile(String fileUrl) throws Exception{
+        boolean flag = false;
         if (StringUtils.isEmpty(fileUrl)) {
-            return false;
+            return flag;
         }
         try {
             StorePath storePath = StorePath.praseFromUrl(fileUrl);
             storageClient.deleteFile(storePath.getGroup(), storePath.getPath());
+            flag = true;
         } catch (FdfsUnsupportStorePathException e) {
             logger.warn(e.getMessage());
-            return false;
         }
-        return true;
+        return flag;
     }
 
     /**

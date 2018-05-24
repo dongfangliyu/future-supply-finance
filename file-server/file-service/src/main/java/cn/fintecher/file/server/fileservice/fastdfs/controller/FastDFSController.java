@@ -1,11 +1,12 @@
 package cn.fintecher.file.server.fileservice.fastdfs.controller;
 
 
-import cn.fintecher.file.server.filecommon.message.Message;
+import cn.fintecher.common.utils.basecommon.message.Message;
 import cn.fintecher.file.server.fileservice.fastdfs.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,7 +22,7 @@ public class FastDFSController {
     @Autowired
     private FileService fileService;
 
-    @RequestMapping(value = "/upload")
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public ResponseEntity<Message> upload(MultipartFile file) throws Exception {
         return fileService.fileUpload(file);
     }
