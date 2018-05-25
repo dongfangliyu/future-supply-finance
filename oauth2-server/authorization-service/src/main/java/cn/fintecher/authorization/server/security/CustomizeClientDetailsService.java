@@ -6,6 +6,7 @@ import cn.fintecher.authorization.server.domain.CustomClientDetails;
 import cn.fintecher.authorization.server.service.SysClientDetailsService;
 import cn.fintecher.common.utils.BeanCopyUtils;
 import cn.fintecher.common.utils.basecommon.message.Message;
+import cn.fintecher.common.utils.basecommon.message.MessageType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,13 +40,12 @@ public class CustomizeClientDetailsService implements ClientDetailsService {
                 String msg = String.format("CustomClientDetailsService SearchClientDetail response is null. %s", clientId);
                 throw new ClientRegistrationException(msg);
             }
-
-            if (responseEntity.getBody().getStatus().endsWith("ERROR")) {
+            if (responseEntity.getBody().getCode()!= MessageType.MSG_SUCCESS) {
                 String msg = String.format("CustomClientDetailsService SearchClientDetail response is error. %s", clientId);
                 throw new ClientRegistrationException(msg);
             }
 
-            ClientDetailInfo clientDetailInfo = objectMapper.convertValue(responseEntity.getBody().getData(), ClientDetailInfo.class);
+            ClientDetailInfo clientDetailInfo = objectMapper.convertValue(responseEntity.getBody().getMessage(), ClientDetailInfo.class);
             if (clientDetailInfo == null) {
                 String msg = String.format("CustomClientDetailsService SearchClientDetail convertValue is null. %s", clientId);
                 throw new ClientRegistrationException(msg);

@@ -1,17 +1,33 @@
 server:
-  port: 8081
-  contextPath: /authorization-manager
+  port: 9091
+  contextPath: /authorization-agent
 
+logging:
+  level:
+    org.springframework.security: DEBUG
+
+authorization:
+  manager:
+      url: http://localhost:8081/authorization-manager
+
+resourceServer:
+  resourceId: authorization-agent
+
+remoteTokenServices:
+  clientId: my-trusted-client-with-secret
+  clientSecret: somesecret
+  checkTokenEndpointUrl: http://localhost:9090/authorization-service/oauth/check_token
+  
 #MYBATIS
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
-  type-aliases-package:  cn.fintecher.authorization.manager.userdetails.entity.**
+  type-aliases-package: cn.fintecher.authorization.agent.entity.**
 
 #DATASOURCE
 spring:
   datasource:
     name: test
-    url: jdbc:mysql://127.0.0.1:3306/accountcore?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    url: jdbc:mysql://127.0.0.1:3306/test
     username: root
     password: 123456
     # 使用druid数据源
@@ -29,4 +45,4 @@ spring:
     testOnBorrow: false
     testOnReturn: false
     poolPreparedStatements: true
-    maxOpenPreparedStatements: 20	
+    maxOpenPreparedStatements: 20

@@ -64,7 +64,7 @@ public class SysUserDetailsService {
 //            userDetailInfo.setLastName("emu");
 //        }
 
-        return new ResponseEntity<Message>(new Message(MessageType.MSG_TYPE_SUCCESS, userDetailInfo), HttpStatus.OK);
+        return new ResponseEntity<Message>(new Message(MessageType.MSG_SUCCESS,"oauth2", userDetailInfo), HttpStatus.OK);
 
     }
 }

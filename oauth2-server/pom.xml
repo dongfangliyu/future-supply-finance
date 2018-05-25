@@ -28,6 +28,7 @@
         <module>authorization-common</module>
         <module>authorization-service</module>
         <module>authorization-manager</module>
+        <module>authorization-agent</module>
     </modules>
 
 

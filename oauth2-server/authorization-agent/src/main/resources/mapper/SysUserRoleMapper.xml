@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<mapper namespace="cn.fintecher.authorization.agent.dao.SysUserRoleDao">
+
+	<resultMap id="RM_SysUserRole" type="cn.fintecher.authorization.agent.entity.SysUserRole">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="roleCode" column="role_code"/>
+        <result property="resourceCodes" column="resource_codes"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,user_id,role_code,resource_codes
+	    ]]>
+	</sql>
+	
+	<select id="findRolesByUsername" resultType="String">
+		SELECT
+			t1.role_code
+		FROM
+			sys_user_role t1
+		LEFT JOIN sys_user t2 ON t1.user_id = t2.id
+		WHERE t2.username = #{username,jdbcType=VARCHAR};
+	</select>
+	
+	<select id="findFunctionByUsername" resultType="String">
+		SELECT
+			t1.resource_codes
+		FROM
+			sys_user_role t1
+		LEFT JOIN sys_user t2 ON t1.user_id = t2.id
+		WHERE t2.username = #{username,jdbcType=VARCHAR};
+	</select>
+
+</mapper>
+
+

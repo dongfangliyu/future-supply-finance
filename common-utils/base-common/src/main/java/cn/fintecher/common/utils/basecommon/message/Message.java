@@ -16,4 +16,8 @@ public class Message {
         this.type = type;
         this.data = data;
     }
+
+    public Message(){
+
+    }
 }

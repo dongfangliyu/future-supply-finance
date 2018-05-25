@@ -69,7 +69,7 @@ public class SysClientDetailsService {
 
         clientDetailInfo.setAdditionalInformation(null);
 
-        return new ResponseEntity<Message>(new Message(MessageType.MSG_TYPE_SUCCESS, clientDetailInfo), HttpStatus.OK);
+        return new ResponseEntity<Message>(new Message(MessageType.MSG_SUCCESS,"oauth2", clientDetailInfo), HttpStatus.OK);
     }
 
 }

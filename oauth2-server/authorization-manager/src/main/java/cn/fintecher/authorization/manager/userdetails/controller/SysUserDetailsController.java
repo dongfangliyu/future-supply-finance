@@ -22,7 +22,7 @@ public class SysUserDetailsController {
             return sysUserDetailsService.SearchUserDetail(username);
         } catch (Exception ex) {
             //  logger.error("返回所有客户error", ex);
-            return new ResponseEntity<Message>(new Message(MessageType.MSG_TYPE_ERROR, ex.getMessage()), HttpStatus.OK);
+            return new ResponseEntity<Message>(new Message(MessageType.MSG_ERROR, "oauth2",ex.getMessage()), HttpStatus.OK);
         }
     }
 }

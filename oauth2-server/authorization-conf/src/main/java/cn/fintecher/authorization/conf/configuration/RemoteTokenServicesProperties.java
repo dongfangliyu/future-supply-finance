@@ -2,7 +2,7 @@ package cn.fintecher.authorization.conf.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "remoteToken0Services")
+@ConfigurationProperties(prefix = "remoteTokenServices")
 public class RemoteTokenServicesProperties {
 
     private String clientId;
