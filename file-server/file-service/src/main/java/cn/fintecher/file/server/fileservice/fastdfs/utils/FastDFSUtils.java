@@ -1,4 +1,4 @@
-package cn.fintecher.file.server.fileservice.utils;
+package cn.fintecher.file.server.fileservice.fastdfs.utils;
 
 import com.github.tobato.fastdfs.domain.MataData;
 import com.github.tobato.fastdfs.domain.StorePath;
@@ -90,16 +90,19 @@ public class FastDFSUtils {
      * @param fileUrl 文件访问地址
      * @return
      */
-    public void deleteFile(String fileUrl) {
+    public boolean deleteFile(String fileUrl) throws Exception{
+        boolean flag = false;
         if (StringUtils.isEmpty(fileUrl)) {
-            return;
+            return flag;
         }
         try {
             StorePath storePath = StorePath.praseFromUrl(fileUrl);
             storageClient.deleteFile(storePath.getGroup(), storePath.getPath());
+            flag = true;
         } catch (FdfsUnsupportStorePathException e) {
             logger.warn(e.getMessage());
         }
+        return flag;
     }
 
     /**

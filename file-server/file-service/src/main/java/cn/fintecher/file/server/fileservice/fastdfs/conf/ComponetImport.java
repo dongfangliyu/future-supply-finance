@@ -1,4 +1,4 @@
-package cn.fintecher.file.server.fileservice.conf;
+package cn.fintecher.file.server.fileservice.fastdfs.conf;
 
 import com.github.tobato.fastdfs.FdfsClientConfig;
 import org.springframework.context.annotation.Configuration;
