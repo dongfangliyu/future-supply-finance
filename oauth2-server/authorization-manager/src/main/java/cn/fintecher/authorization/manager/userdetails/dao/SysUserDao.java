@@ -12,5 +12,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface SysUserDao {
-    public SysUser getByUserName(String username);
+     SysUser getByUserName(String username);
+     void createUser(SysUser sysUser);
+     void updateUser(SysUser sysUser);
 }

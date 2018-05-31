@@ -22,8 +22,34 @@
 	</sql>
 	
 	<select id="getByUserName" resultMap="RM_SysUser">
-		select * from sys_user where username = #{username,jdbcType=VARCHAR} limit 1;
+		select * from sys_user_core where username = #{username,jdbcType=VARCHAR}  and stauts = 1 limit 1;
 	</select>
+
+	<insert id="createUser" parameterType="cn.fintecher.authorization.manager.userdetails.entity.SysUser" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO sys_user_core (
+        	username ,
+        	password ,
+        	create_time ,
+        	stauts ,
+        	name
+        ) VALUES (
+        	#{username} ,
+        	#{password} ,
+        	#{createTime} ,
+        	#{stauts} ,
+        	#{name}
+        )
+	</insert>
+
+	<update id="updateUser" parameterType="cn.fintecher.authorization.manager.userdetails.entity.SysUser">
+		  update  sys_user_core
+		<set>
+			<if test="password != null and  password != ''">`password` = #{password}, </if>
+			<if test="stauts != null  and stauts != ''">`stauts` = #{stauts}, </if>
+			<if test="name != null and  name != ''">`name` = #{name}, </if>
+		</set>
+		where id = #{id}
+	</update>
 
 </mapper>
 

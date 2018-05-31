@@ -8,10 +8,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Map;
+
 @FeignClient(name = "authorization-manager", url = "${authorization.manager.url}")
 public interface SysUserDetailsService {
 
     @RequestMapping(value = "sys-user-details/searchUserDetail", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Message> SearchUserDetail(@RequestParam("username") String username);
+    ResponseEntity<Message> SearchUserDetail(@RequestParam("username") String username);
+
+    @RequestMapping(value = "sys-user-details/createUser", method = RequestMethod.POST)
+    @ResponseBody
+    ResponseEntity<Message> createUser(Map<String,Object> map);
+
+    @RequestMapping(value = "sys-user-details/updateUser", method = RequestMethod.POST)
+    @ResponseBody
+    ResponseEntity<Message> updateUser(Map<String,Object> map);
 }

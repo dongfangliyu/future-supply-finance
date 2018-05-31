@@ -16,7 +16,7 @@ spring:
   redis:
       database: 4
       host: 127.0.0.1
-#     password: root123456
+      password: 123456
       port: 6379
       pool:
           max-active: 8
