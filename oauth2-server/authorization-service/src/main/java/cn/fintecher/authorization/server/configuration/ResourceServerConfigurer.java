@@ -53,8 +53,6 @@ public class ResourceServerConfigurer extends ResourceServerConfigurerAdapter {
                 .access("#oauth2.hasScope('read')")
                 .antMatchers("/oauth/authorize")
                 .access("#oauth2.hasScope('read')")
-                .antMatchers(HttpMethod.DELETE, "/oauth/revoke_token/**")
-                .access("#oauth2.clientHasRole('ROLE_CLIENT') and (hasRole('ROLE_USER') or #oauth2.isClient()) and #oauth2.hasScope('write')")
                 .regexMatchers(HttpMethod.DELETE, "/oauth/users/([^/].*?)/tokens/.*")
                 .access("#oauth2.clientHasRole('ROLE_CLIENT') and (hasRole('ROLE_USER') or #oauth2.isClient()) and #oauth2.hasScope('write')")
                 .regexMatchers(HttpMethod.GET, "/oauth/clients/([^/].*?)/users/.*")
