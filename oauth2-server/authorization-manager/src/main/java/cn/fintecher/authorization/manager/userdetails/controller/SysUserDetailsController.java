@@ -47,4 +47,14 @@ public class SysUserDetailsController {
             return new ResponseEntity<Message>(new Message(MessageType.MSG_ERROR, "oauth2",ex.getMessage()), HttpStatus.OK);
         }
     }
+
+    @RequestMapping(value = "getByUserName", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<Message> getByUserName(String userName) {
+        try {
+            return sysUserDetailsService.getByUserName(userName);
+        } catch (Exception ex) {
+            return new ResponseEntity<Message>(new Message(MessageType.MSG_ERROR, "oauth2",ex.getMessage()), HttpStatus.OK);
+        }
+    }
 }
