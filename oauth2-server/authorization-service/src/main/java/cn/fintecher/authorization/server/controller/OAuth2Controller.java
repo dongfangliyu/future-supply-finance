@@ -25,7 +25,7 @@ public class OAuth2Controller {
 
     @RequestMapping(value = "/oauth/getByUserName", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Message> getByUserName(String userName) throws Exception {
+    public ResponseEntity<Message> getByUserName(@RequestParam("userName") String userName) throws Exception {
         return sysUserDetailsService.getByUserName(userName);
     }
 

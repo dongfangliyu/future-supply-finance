@@ -27,5 +27,5 @@ public interface SysUserDetailsService {
 
     @RequestMapping(value = "sys-user-details/getByUserName", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<Message> getByUserName(String userName);
+    ResponseEntity<Message> getByUserName(@RequestParam("username") String username);
 }
