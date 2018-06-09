@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,7 +24,7 @@ public class FastDFSController {
     private FileService fileService;
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public ResponseEntity<Message> upload(MultipartFile file) throws Exception {
+    public ResponseEntity<Message> upload(@RequestPart MultipartFile file) throws Exception {
         return fileService.fileUpload(file);
     }
 
