@@ -9,12 +9,12 @@ public class Message {
 
     private String type = null;
 
-    private Object data = null;
+    private Object message = null;
 
-    public Message(Integer code, String type, Object data) {
+    public Message(Integer code, String type, Object message) {
         this.code = code;
         this.type = type;
-        this.data = data;
+        this.message = message;
     }
 
     public Message(){
