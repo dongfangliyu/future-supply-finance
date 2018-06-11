@@ -23,6 +23,13 @@ public class OAuth2Controller {
     @Autowired
     private SysUserDetailsService sysUserDetailsService;
 
+    @RequestMapping(value = "/oauth/getByUserName", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<Message> getByUserName(@RequestParam("userName") String userName) throws Exception {
+        return sysUserDetailsService.getByUserName(userName);
+    }
+
+
     @RequestMapping(value = "/oauth/createUser", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Message> createUser(Map<String,Object> map) throws Exception {
@@ -34,7 +41,6 @@ public class OAuth2Controller {
     public ResponseEntity<Message> updateUser(Map<String,Object> map) throws Exception {
         return sysUserDetailsService.updateUser(map);
     }
-
 
     @RequestMapping(value = "/oauth/v1", method = RequestMethod.GET)
     @ResponseBody

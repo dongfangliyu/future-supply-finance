@@ -26,6 +26,19 @@ public class SysUserDetailsService {
 	
 	@Autowired
 	private SysUserDao sysUserDao;
+
+	public  ResponseEntity<Message> getByUserName(String userName){
+        UserDetailInfo userDetailInfo = new UserDetailInfo();
+        SysUser sysUser = sysUserDao.getByUserName(userName);
+        if(sysUser!=null){
+            userDetailInfo.setUsername(sysUser.getUsername());
+            userDetailInfo.setPassword(sysUser.getPassword());
+        }else{
+            return new ResponseEntity<Message>(new Message(MessageType.MSG_ERROR,"oauth2", null), HttpStatus.OK);
+        }
+        return new ResponseEntity<Message>(new Message(MessageType.MSG_SUCCESS,"oauth2", userDetailInfo), HttpStatus.OK);
+    }
+
 	
     public ResponseEntity<Message> SearchUserDetail(String username) {
 
@@ -60,7 +73,7 @@ public class SysUserDetailsService {
                 if(map.containsKey("password")&& map.get("password")!=null && !"".equals(map.get("password"))){
                     SysUser sysUser = sysUserDao.getByUserName(map.get("username").toString());
                     if(sysUser!=null && sysUser.getId()>0){
-                        return new ResponseEntity<Message>(new Message(MessageType.MSG_ERROR, "oauth2","用户已存在"), HttpStatus.OK);
+                        return new ResponseEntity<Message>(new Message(MessageType.MSG_ERROR, "oauth2","账号已存在"), HttpStatus.OK);
                     }else{
                         sysUser.setCreateTime(new Date());
                         if(map.containsKey("name"))sysUser.setName(map.get("name").toString());
@@ -68,13 +81,13 @@ public class SysUserDetailsService {
                         sysUser.setUsername(map.get("username").toString());
                         sysUser.setPassword(map.get("password").toString());
                         sysUserDao.createUser(sysUser);
-                        return  new ResponseEntity<Message>(new Message(MessageType.MSG_SUCCESS, "oauth2","新增用户成功"), HttpStatus.OK);
+                        return  new ResponseEntity<Message>(new Message(MessageType.MSG_SUCCESS, "oauth2",sysUser.getId()), HttpStatus.OK);
                     }
                 }else{
                     return new ResponseEntity<Message>(new Message(MessageType.MSG_ERROR, "oauth2","密码为空"), HttpStatus.OK);
                 }
             }else{
-                return new ResponseEntity<Message>(new Message(MessageType.MSG_ERROR, "oauth2","用户名为空"), HttpStatus.OK);
+                return new ResponseEntity<Message>(new Message(MessageType.MSG_ERROR, "oauth2","用户名或手机号码为空"), HttpStatus.OK);
             }
         }catch (Exception ex){
             return new ResponseEntity<Message>(new Message(MessageType.MSG_ERROR, "oauth2",ex.getMessage()), HttpStatus.OK);

@@ -24,4 +24,8 @@ public interface SysUserDetailsService {
     @RequestMapping(value = "sys-user-details/updateUser", method = RequestMethod.POST)
     @ResponseBody
     ResponseEntity<Message> updateUser(Map<String,Object> map);
+
+    @RequestMapping(value = "sys-user-details/getByUserName", method = RequestMethod.GET)
+    @ResponseBody
+    ResponseEntity<Message> getByUserName(@RequestParam("username") String username);
 }
