@@ -72,7 +72,7 @@
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
                 <configuration>
-                    <imageName>>${docker.registryUrl}/${project.name}:${project.version}</imageName>
+                    <imageName>${docker.registryUrl}/${project.name}:${project.version}</imageName>
                     <imageTags>
                         <imageTag>${docker.imageTag}</imageTag>
                     </imageTags>
@@ -86,7 +86,6 @@
                     </resources>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 

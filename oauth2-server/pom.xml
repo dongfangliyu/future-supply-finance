@@ -19,8 +19,6 @@
         <junit.version>4.11</junit.version>
         <fastjson.version>1.2.24</fastjson.version>
         <java.version>1.8</java.version>
-        <docker.registryUrl>222.73.56.12:5000</docker.registryUrl>
-        <docker.imageTag>1.0.1</docker.imageTag>
     </properties>
 
     <modules>
