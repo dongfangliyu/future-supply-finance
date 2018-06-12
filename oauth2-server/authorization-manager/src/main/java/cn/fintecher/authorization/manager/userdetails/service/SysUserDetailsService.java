@@ -8,6 +8,7 @@ import cn.fintecher.authorization.manager.userdetails.dao.SysUserRoleDao;
 import cn.fintecher.authorization.manager.userdetails.entity.SysUser;
 import cn.fintecher.common.utils.basecommon.message.Message;
 import cn.fintecher.common.utils.basecommon.message.MessageType;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class SysUserDetailsService {
@@ -27,16 +27,16 @@ public class SysUserDetailsService {
 	@Autowired
 	private SysUserDao sysUserDao;
 
-	public  ResponseEntity<Message> getByUserName(String userName){
+	public  Message getByUserName(String userName){
         UserDetailInfo userDetailInfo = new UserDetailInfo();
         SysUser sysUser = sysUserDao.getByUserName(userName);
         if(sysUser!=null){
             userDetailInfo.setUsername(sysUser.getUsername());
             userDetailInfo.setPassword(sysUser.getPassword());
         }else{
-            return new ResponseEntity<Message>(new Message(MessageType.MSG_ERROR,"oauth2", null), HttpStatus.OK);
+            return new Message(MessageType.MSG_ERROR,"oauth2", null);
         }
-        return new ResponseEntity<Message>(new Message(MessageType.MSG_SUCCESS,"oauth2", userDetailInfo), HttpStatus.OK);
+        return new Message(MessageType.MSG_SUCCESS,"oauth2", userDetailInfo);
     }
 
 	
@@ -67,35 +67,37 @@ public class SysUserDetailsService {
 
     }
 
-    public ResponseEntity<Message>  createUser(Map<String,Object> map){
+    public Message createUser(JSONObject map){
         try {
+
             if(map.containsKey("username")&& map.get("username")!=null && !"".equals(map.get("username"))){
                 if(map.containsKey("password")&& map.get("password")!=null && !"".equals(map.get("password"))){
                     SysUser sysUser = sysUserDao.getByUserName(map.get("username").toString());
                     if(sysUser!=null && sysUser.getId()>0){
-                        return new ResponseEntity<Message>(new Message(MessageType.MSG_ERROR, "oauth2","账号已存在"), HttpStatus.OK);
+                        return new Message(MessageType.MSG_ERROR, "oauth2","账号已存在");
                     }else{
+                        sysUser = new SysUser();
                         sysUser.setCreateTime(new Date());
                         if(map.containsKey("name"))sysUser.setName(map.get("name").toString());
                         sysUser.setStauts(1);
                         sysUser.setUsername(map.get("username").toString());
                         sysUser.setPassword(map.get("password").toString());
                         sysUserDao.createUser(sysUser);
-                        return  new ResponseEntity<Message>(new Message(MessageType.MSG_SUCCESS, "oauth2",sysUser.getId()), HttpStatus.OK);
+                        return  new Message(MessageType.MSG_SUCCESS, "oauth2",sysUser.getId());
                     }
                 }else{
-                    return new ResponseEntity<Message>(new Message(MessageType.MSG_ERROR, "oauth2","密码为空"), HttpStatus.OK);
+                    return new Message(MessageType.MSG_ERROR, "oauth2","密码为空");
                 }
             }else{
-                return new ResponseEntity<Message>(new Message(MessageType.MSG_ERROR, "oauth2","用户名或手机号码为空"), HttpStatus.OK);
+                return new Message(MessageType.MSG_ERROR, "oauth2","用户名或手机号码为空");
             }
         }catch (Exception ex){
-            return new ResponseEntity<Message>(new Message(MessageType.MSG_ERROR, "oauth2",ex.getMessage()), HttpStatus.OK);
+            return new Message(MessageType.MSG_ERROR, "oauth2",ex.getMessage());
         }
 
     }
 
-    public ResponseEntity<Message>  updateUser(Map<String,Object> map){
+    public Message updateUser(JSONObject map){
         try {
             if(map.containsKey("username")&& map.get("username")!=null && !"".equals(map.get("username"))){
                 SysUser sysUser = sysUserDao.getByUserName(map.get("username").toString());
@@ -105,15 +107,15 @@ public class SysUserDetailsService {
                     sysUser.setUsername(map.get("username").toString());
                     if(map.containsKey("password"))sysUser.setPassword(map.get("password").toString());
                     sysUserDao.updateUser(sysUser);
-                    return  new ResponseEntity<Message>(new Message(MessageType.MSG_SUCCESS, "oauth2","修改用户成功"), HttpStatus.OK);
+                    return  new Message(MessageType.MSG_SUCCESS, "oauth2","修改用户成功");
                 }else{
-                    return new ResponseEntity<Message>(new Message(MessageType.MSG_ERROR, "oauth2","用户不存在"), HttpStatus.OK);
+                    return new Message(MessageType.MSG_ERROR, "oauth2","用户不存在");
                 }
             }else{
-                return new ResponseEntity<Message>(new Message(MessageType.MSG_ERROR, "oauth2","用户名为空"), HttpStatus.OK);
+                return new Message(MessageType.MSG_ERROR, "oauth2","用户名为空");
             }
         }catch (Exception ex){
-            return new ResponseEntity<Message>(new Message(MessageType.MSG_ERROR, "oauth2",ex.getMessage()), HttpStatus.OK);
+            return new Message(MessageType.MSG_ERROR, "oauth2",ex.getMessage());
         }
     }
 

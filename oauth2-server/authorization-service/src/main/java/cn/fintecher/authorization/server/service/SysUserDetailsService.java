@@ -1,14 +1,10 @@
 package cn.fintecher.authorization.server.service;
 
 import cn.fintecher.common.utils.basecommon.message.Message;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.Map;
+import org.springframework.web.bind.annotation.*;
 
 @FeignClient(name = "authorization-manager", url = "${authorization.manager.url}")
 public interface SysUserDetailsService {
@@ -19,13 +15,13 @@ public interface SysUserDetailsService {
 
     @RequestMapping(value = "sys-user-details/createUser", method = RequestMethod.POST)
     @ResponseBody
-    ResponseEntity<Message> createUser(Map<String,Object> map);
+    Message createUser(@RequestBody JSONObject jsonObject);
 
     @RequestMapping(value = "sys-user-details/updateUser", method = RequestMethod.POST)
     @ResponseBody
-    ResponseEntity<Message> updateUser(Map<String,Object> map);
+    Message updateUser(@RequestBody JSONObject jsonObject);
 
     @RequestMapping(value = "sys-user-details/getByUserName", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<Message> getByUserName(String username);
+    Message getByUserName(@RequestParam("username") String username);
 }

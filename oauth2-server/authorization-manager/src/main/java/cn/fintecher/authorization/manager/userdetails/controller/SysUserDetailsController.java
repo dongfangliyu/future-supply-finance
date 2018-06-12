@@ -4,12 +4,11 @@ package cn.fintecher.authorization.manager.userdetails.controller;
 import cn.fintecher.authorization.manager.userdetails.service.SysUserDetailsService;
 import cn.fintecher.common.utils.basecommon.message.Message;
 import cn.fintecher.common.utils.basecommon.message.MessageType;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("sys-user-details")
@@ -30,31 +29,31 @@ public class SysUserDetailsController {
 
     @RequestMapping(value = "createUser", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Message> createUser(Map<String,Object> map) {
+    public Message createUser(@RequestBody JSONObject jsonObject) {
         try {
-            return sysUserDetailsService.createUser(map);
+            return sysUserDetailsService.createUser(jsonObject);
         } catch (Exception ex) {
-            return new ResponseEntity<Message>(new Message(MessageType.MSG_ERROR, "oauth2",ex.getMessage()), HttpStatus.OK);
+            return new Message(MessageType.MSG_ERROR,"oauth2",ex.getMessage());
         }
     }
 
     @RequestMapping(value = "updateUser", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Message> updateUser(Map<String,Object> map) {
+    public Message updateUser(@RequestBody JSONObject jsonObject) {
         try {
-            return sysUserDetailsService.updateUser(map);
+            return sysUserDetailsService.updateUser(jsonObject);
         } catch (Exception ex) {
-            return new ResponseEntity<Message>(new Message(MessageType.MSG_ERROR, "oauth2",ex.getMessage()), HttpStatus.OK);
+            return new Message(MessageType.MSG_ERROR, "oauth2",ex.getMessage());
         }
     }
 
     @RequestMapping(value = "getByUserName", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Message> getByUserName(@RequestParam("username") String username) {
+    public Message getByUserName(@RequestParam("username") String username) {
         try {
             return sysUserDetailsService.getByUserName(username);
         } catch (Exception ex) {
-            return new ResponseEntity<Message>(new Message(MessageType.MSG_ERROR, "oauth2",ex.getMessage()), HttpStatus.OK);
+            return new Message(MessageType.MSG_ERROR, "oauth2",ex.getMessage());
         }
     }
 }

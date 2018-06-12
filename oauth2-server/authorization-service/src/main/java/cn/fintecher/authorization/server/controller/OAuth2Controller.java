@@ -3,6 +3,7 @@ package cn.fintecher.authorization.server.controller;
 import cn.fintecher.authorization.server.service.OAuth2Service;
 import cn.fintecher.authorization.server.service.SysUserDetailsService;
 import cn.fintecher.common.utils.basecommon.message.Message;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.Collection;
-import java.util.Map;
 
 @Controller
 public class OAuth2Controller {
@@ -25,21 +25,21 @@ public class OAuth2Controller {
 
     @RequestMapping(value = "/oauth/getByUserName", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Message> getByUserName(@RequestParam("userName") String userName) throws Exception {
+    public Message getByUserName(@RequestParam("userName") String userName) throws Exception {
         return sysUserDetailsService.getByUserName(userName);
     }
 
 
     @RequestMapping(value = "/oauth/createUser", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Message> createUser(Map<String,Object> map) throws Exception {
-        return sysUserDetailsService.createUser(map);
+    public Message createUser(@RequestBody JSONObject jsonObject) throws Exception {
+        return sysUserDetailsService.createUser(jsonObject);
     }
 
     @RequestMapping(value = "/oauth/updateUser", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Message> updateUser(Map<String,Object> map) throws Exception {
-        return sysUserDetailsService.updateUser(map);
+    public Message updateUser(@RequestBody JSONObject jsonObject) throws Exception {
+        return sysUserDetailsService.updateUser(jsonObject);
     }
 
     @RequestMapping(value = "/oauth/v1", method = RequestMethod.GET)
