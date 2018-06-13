@@ -1,5 +1,5 @@
 server:
-  port: 9090
+  port: 8090
   contextPath: /authorization-service
 
 #security:
@@ -15,8 +15,8 @@ spring:
       name: oauth2-server
   redis:
       database: 4
-      host: 127.0.0.1
-      password: 123456
+      host: 172.16.10.206
+      password:
       port: 6379
       pool:
           max-active: 8
