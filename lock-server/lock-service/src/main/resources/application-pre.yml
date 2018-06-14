@@ -7,9 +7,9 @@ spring:
       enabled: never
 
   redis:
-    ##集群对外暴露的IP
-    host: XXXXXX
-    port: 33379
+    ##redisIP
+    host: XXXXXXXX
+    port: 6379
     #连接超时时间3秒
     timeout: 3000
 

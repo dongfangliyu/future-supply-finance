@@ -1,6 +1,6 @@
 server:
-  port: 9090
-  contextPath: /authorization-server
+  port: 8090
+  contextPath: /authorization-service
 
 #security:
 #  oauth2:
@@ -15,8 +15,8 @@ spring:
       name: oauth2-server
   redis:
       database: 4
-      host: 10.10.1.64
-#     password: root123456
+      host: 172.16.10.206
+      password:
       port: 6379
       pool:
           max-active: 8
@@ -49,7 +49,7 @@ logging:
 
 authorization:
   manager:
-      url: http://10.10.1.64:8081/authorization-manager
+      url: http://172.16.10.206:8081/authorization-manager
 
 resourceServer:
-  resourceId: authorization-server
+  resourceId: authorization-service
