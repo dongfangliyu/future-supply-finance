@@ -1,5 +1,6 @@
 package cn.fintecher.authorization.manager.userdetails.dao;
 
+import cn.fintecher.authorization.manager.userdetails.entity.SysUserRole;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -13,4 +14,6 @@ import java.util.List;
 @Mapper
 public interface SysUserRoleDao {
 	List<String> findRolesByUsername(String username);
+
+	void insert (SysUserRole sysUserRole);
 }

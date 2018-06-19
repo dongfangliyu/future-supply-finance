@@ -17,6 +17,16 @@
 		id,user_id,role_code
 	    ]]>
 	</sql>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="cn.fintecher.authorization.manager.userdetails.entity.SysUserRole">
+        INSERT INTO sys_user_role_core (
+        	user_id ,
+        	role_code
+        ) VALUES (
+        	#{userId} ,
+        	#{roleCode}
+        )
+	</insert>
 	
 	<select id="findRolesByUsername" resultType="String">
 		SELECT

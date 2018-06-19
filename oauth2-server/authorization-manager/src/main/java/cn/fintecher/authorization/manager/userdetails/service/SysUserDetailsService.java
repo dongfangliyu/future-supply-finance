@@ -6,6 +6,7 @@ import cn.fintecher.authorization.common.dto.userdetails.UserDetailInfo;
 import cn.fintecher.authorization.manager.userdetails.dao.SysUserDao;
 import cn.fintecher.authorization.manager.userdetails.dao.SysUserRoleDao;
 import cn.fintecher.authorization.manager.userdetails.entity.SysUser;
+import cn.fintecher.authorization.manager.userdetails.entity.SysUserRole;
 import cn.fintecher.common.utils.basecommon.message.Message;
 import cn.fintecher.common.utils.basecommon.message.MessageType;
 import com.alibaba.fastjson.JSONObject;
@@ -69,7 +70,6 @@ public class SysUserDetailsService {
 
     public Message createUser(JSONObject map){
         try {
-
             if(map.containsKey("username")&& map.get("username")!=null && !"".equals(map.get("username"))){
                 if(map.containsKey("password")&& map.get("password")!=null && !"".equals(map.get("password"))){
                     SysUser sysUser = sysUserDao.getByUserName(map.get("username").toString());
@@ -83,6 +83,12 @@ public class SysUserDetailsService {
                         sysUser.setUsername(map.get("username").toString());
                         sysUser.setPassword(map.get("password").toString());
                         sysUserDao.createUser(sysUser);
+                        if(sysUser.getId() != null && sysUser.getId() > 0){
+                            SysUserRole sysUserRole = new SysUserRole();
+                            sysUserRole.setRoleCode("user");
+                            sysUserRole.setUserId(sysUser.getId());
+                            sysUserRoleDao.insert(sysUserRole);
+                        }
                         return  new Message(MessageType.MSG_SUCCESS, "oauth2",sysUser.getId());
                     }
                 }else{
