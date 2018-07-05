@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.fintecher.sms.dao.SysSmsTaskDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="cn.fintecher.sms.entity.SysSmsTaskEntity" id="sysSmsTaskMap">
+        <result property="id" column="id"/>
+        <result property="mobile" column="mobile"/>
+        <result property="sendTime" column="send_time"/>
+        <result property="cId" column="c_id"/>
+        <result property="priority" column="priority"/>
+        <result property="content" column="content"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="cn.fintecher.sms.entity.SysSmsTaskEntity">
+		select * from sys_sms_task where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="cn.fintecher.sms.entity.SysSmsTaskEntity">
+		select * from sys_sms_task
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from sys_sms_task 
+	</select>
+	 
+	<insert id="save" parameterType="cn.fintecher.sms.entity.SysSmsTaskEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_sms_task
+		(
+			`mobile`, 
+			`send_time`, 
+			`c_id`, 
+			`priority`, 
+			`content`, 
+			`status`
+		)
+		values
+		(
+			#{mobile}, 
+			#{sendTime}, 
+			#{cId}, 
+			#{priority}, 
+			#{content}, 
+			#{status}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="cn.fintecher.sms.entity.SysSmsTaskEntity">
+		update sys_sms_task 
+		<set>
+			<if test="mobile != null">`mobile` = #{mobile}, </if>
+			<if test="sendTime != null">`send_time` = #{sendTime}, </if>
+			<if test="cId != null">`c_id` = #{cId}, </if>
+			<if test="priority != null">`priority` = #{priority}, </if>
+			<if test="content != null">`content` = #{content}, </if>
+			<if test="status != null">`status` = #{status}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from sys_sms_task where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from sys_sms_task where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

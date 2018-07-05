@@ -1,0 +1,42 @@
+# log
+logging:
+   config:
+     classpath: logback-spring.xml
+   path: /data/logs/sms
+   
+#Server
+server:
+  port: 8888
+  context-path: /sms
+  
+spring:
+    datasource:
+        url: jdbc:mysql://172.16.10.35:3306/smsdb?characterEncoding=utf8
+        username: zwuser
+        password: zwusermysql!
+        driverClassName: com.mysql.jdbc.Driver
+        #连接池的配置信息
+        initialSize: 10
+        minIdle: 10
+        maxActive: 100
+        maxWait: 60000
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: SELECT 1 FROM DUAL
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+        maxPoolPreparedStatementPerConnectionSize: 20
+
+       
+# voice message
+yuntongxun:
+    accountid: 560f12323352f2e49230f3d8273314eb
+    autotoken: 2f13254db878f2069fd1f8a6f5d2c279
+    applyid: 89eb3bb1e1d44015a5ea62db9bfc3931
+    displaynum: 125909888428
+    playTimes: 3
+
+  
+     

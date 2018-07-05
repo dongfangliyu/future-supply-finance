@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.fintecher.sms.dao.SysSmsRecordDetailDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="cn.fintecher.sms.entity.SysSmsRecordDetailEntity" id="sysSmsRecordDetailMap">
+        <result property="id" column="id"/>
+        <result property="status" column="status"/>
+        <result property="mobile" column="mobile"/>
+        <result property="sysNumber" column="sys_number"/>
+        <result property="remark" column="remark"/>
+        <result property="sendTime" column="send_time"/>
+        <result property="cId" column="c_id"/>
+        <result property="serviceNo" column="service_no"/>
+        <result property="content" column="content"/>
+        <result property="sendIp" column="send_ip"/>
+        <result property="msgId" column="msg_id"/>
+        <result property="channelCode" column="channel_code"/>
+        <result property="retryNumber" column="retry_number"/>
+        <result property="type" column="type"/>
+        <result property="number" column="number"/>
+        <result property="statusCode" column="status_code"/>
+        <result property="meseage" column="meseage"/>
+        <result property="recordId" column="record_id"/>
+        <result property="timeConsuming" column="time_consuming"/>
+        <result property="smsState" column="sms_state"/>
+        <result property="receiveState" column="receive_state"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="cn.fintecher.sms.entity.SysSmsRecordDetailEntity">
+		select * from sys_sms_record_detail where id = #{value}
+	</select>
+	
+	<!-- 查询条件 -->
+	<sql id="where_Clause">
+		where 1=1
+	<trim  suffixOverrides="," >
+		<if test="id != null" >
+		    and id =  #{id}
+		</if>
+		<if test="status != null and status != ''" >
+		    and status =  #{status}
+		</if>
+		<if test="mobile != null and mobile != ''" >
+		    and mobile like  '%${mobile}%'
+		</if>
+		<if test="msgId != null and msgId != ''" >
+		    and msg_id =  #{msgId}
+		</if>
+		
+		<if test="recordId != null and recordId != ''" >
+		    and record_id =  #{recordId}
+		</if>
+		<if test="channel_code != null and channel_code != ''" >
+		    and channel_code =  #{channel_code}
+		</if>
+		<if test="number != null and number != ''" >
+		    and number =  #{number}
+		</if>
+		<if test="type != null and type != ''" >
+		    and type =  #{type}
+		</if>
+		<if test="send_time != null and send_time != ''" >
+		    and send_time =  #{send_time}
+		</if>
+		
+		<if test="beginTime != null and beginTime !='' and endTime != null and endTime !=''" >
+			and send_time between  #{beginTime} and  #{endTime} 
+		</if>
+		
+	</trim>
+	</sql>
+
+	<select id="queryList" resultType="cn.fintecher.sms.entity.SysSmsRecordDetailEntity">
+		select * from sys_sms_record_detail
+		<include refid="where_Clause"/>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from sys_sms_record_detail 
+		<include refid="where_Clause"/>
+	</select>
+	 
+	<insert id="save" parameterType="cn.fintecher.sms.entity.SysSmsRecordDetailEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_sms_record_detail
+		(
+			`status`, 
+			`mobile`, 
+			`sys_number`, 
+			`remark`, 
+			`send_time`, 
+			`c_id`, 
+			`service_no`, 
+			`content`, 
+			`send_ip`, 
+			`msg_id`, 
+			`channel_code`, 
+			`retry_number`, 
+			`type`, 
+			`number`, 
+			`status_code`, 
+			`meseage`, 
+			`record_id`,
+			`time_consuming`,
+			`sms_state`,
+			`receive_state`
+			
+		)
+		values
+		(
+			#{status}, 
+			#{mobile}, 
+			#{sysNumber}, 
+			#{remark}, 
+			#{sendTime}, 
+			#{cId}, 
+			#{serviceNo}, 
+			#{content}, 
+			#{sendIp}, 
+			#{msgId}, 
+			#{channelCode}, 
+			#{retryNumber}, 
+			#{type}, 
+			#{number}, 
+			#{statusCode}, 
+			#{meseage}, 
+			#{recordId},
+			#{timeConsuming},
+			#{smsState},
+			#{receiveState}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="cn.fintecher.sms.entity.SysSmsRecordDetailEntity">
+		update sys_sms_record_detail 
+		<set>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="mobile != null">`mobile` = #{mobile}, </if>
+			<if test="sysNumber != null">`sys_number` = #{sysNumber}, </if>
+			<if test="remark != null">`remark` = #{remark}, </if>
+			<if test="sendTime != null">`send_time` = #{sendTime}, </if>
+			<if test="cId != null">`c_id` = #{cId}, </if>
+			<if test="serviceNo != null">`service_no` = #{serviceNo}, </if>
+			<if test="content != null">`content` = #{content}, </if>
+			<if test="sendIp != null">`send_ip` = #{sendIp}, </if>
+			<if test="msgId != null">`msg_id` = #{msgId}, </if>
+			<if test="channelCode != null">`channel_code` = #{channelCode}, </if>
+			<if test="retryNumber != null">`retry_number` = #{retryNumber}, </if>
+			<if test="type != null">`type` = #{type}, </if>
+			<if test="number != null">`number` = #{number}, </if>
+			<if test="statusCode != null">`status_code` = #{statusCode}, </if>
+			<if test="meseage != null">`meseage` = #{meseage}, </if>
+			<if test="recordId != null">`record_id` = #{recordId}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from sys_sms_record_detail where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from sys_sms_record_detail where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

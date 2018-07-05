@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.fintecher.sms.dao.SysSmsAccountInfoDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="cn.fintecher.sms.entity.SysSmsAccountInfoEntity" id="sysSmsAccountInfoMap">
+        <result property="id" column="id"/>
+        <result property="uri" column="uri"/>
+        <result property="account" column="account"/>
+        <result property="password" column="password"/>
+        <result property="channelCode" column="channel_code"/>
+        <result property="channelRemark" column="channel_remark"/>
+        <result property="neededReportStatus" column="needed_report_status"/>
+        <result property="productCode" column="product_code"/>
+        <result property="extendedCode" column="extended_code"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="type" column="type"/>
+        <result property="flat" column="flat"/>
+    </resultMap>
+	<!-- sys_sms_content table all fields -->
+	<sql id="Base_Column_List">
+		id,uri,account,password,type,flat,channel_code as channelCode,channel_remark as channelRemark,
+		needed_report_status as neededReportStatus,product_code as productCode,extended_code as extendedCode,
+		status,create_time as createTime,update_time as updateTime, type, flat
+	</sql>
+	
+	<select id="queryObject" resultType="cn.fintecher.sms.entity.SysSmsAccountInfoEntity">
+		select * from sys_sms_account_info where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="cn.fintecher.sms.entity.SysSmsAccountInfoEntity">
+		select * from sys_sms_account_info
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from sys_sms_account_info 
+	</select>
+	 
+	<insert id="save" parameterType="cn.fintecher.sms.entity.SysSmsAccountInfoEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_sms_account_info
+		(
+			`uri`, 
+			`account`, 
+			`password`, 
+			`channel_code`, 
+			`channel_remark`, 
+			`needed_report_status`, 
+			`product_code`, 
+			`extended_code`, 
+			`status`, 
+			`create_time`, 
+			`update_time`,
+			`type`,
+			`flat`
+		)
+		values
+		(
+			#{uri}, 
+			#{account}, 
+			#{password}, 
+			#{channelCode}, 
+			#{channelRemark}, 
+			#{neededReportStatus}, 
+			#{productCode}, 
+			#{extendedCode}, 
+			#{status}, 
+			#{createTime}, 
+			#{updateTime},
+			#{type}, 
+			#{flat}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="cn.fintecher.sms.entity.SysSmsAccountInfoEntity">
+		update sys_sms_account_info 
+		<set>
+			<if test="uri != null">`uri` = #{uri}, </if>
+			<if test="account != null">`account` = #{account}, </if>
+			<if test="password != null">`password` = #{password}, </if>
+			<if test="channelCode != null">`channel_code` = #{channelCode}, </if>
+			<if test="channelRemark != null">`channel_remark` = #{channelRemark}, </if>
+			<if test="neededReportStatus != null">`needed_report_status` = #{neededReportStatus}, </if>
+			<if test="productCode != null">`product_code` = #{productCode}, </if>
+			<if test="extendedCode != null">`extended_code` = #{extendedCode}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime},</if>
+			<if test="type != null">`type` = #{type},</if>
+			<if test="flat != null">`flat` = #{flat}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from sys_sms_account_info where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from sys_sms_account_info where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<select id="findByChannelCode" parameterType="java.lang.String" resultType="cn.fintecher.sms.entity.SysSmsAccountInfoEntity">
+		select
+		<include refid="Base_Column_List"/>
+		from sys_sms_account_info where channel_code = #{channelCode} and status = 1
+	</select>
+</mapper>

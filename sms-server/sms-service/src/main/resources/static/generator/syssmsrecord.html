@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="../public/css/bootstrap.min.css">
+<link rel="stylesheet" href="../public/css/font-awesome.min.css">
+<link rel="stylesheet" href="../public/plugins/jqgrid/ui.jqgrid-bootstrap.css">
+<link rel="stylesheet" href="../public/plugins/ztree/css/metroStyle/metroStyle.css">
+<link rel="stylesheet" href="../public/css/main.css">
+<script src="../public/libs/jquery.min.js"></script>
+<script src="../public/plugins/layer/layer.js"></script>
+<script src="../public/libs/bootstrap.min.js"></script>
+<script src="../public/libs/vue.min.js"></script>
+<script src="../public/plugins/jqgrid/grid.locale-cn.js"></script>
+<script src="../public/plugins/jqgrid/jquery.jqGrid.min.js"></script>
+<script src="../public/plugins/ztree/jquery.ztree.all.min.js"></script>
+<script src="../public/js/common.js"></script>
+</head>
+<body>
+<div id="rrapp" v-cloak>
+	<div v-show="showList">
+		<div class="grid-btn">
+			<div class="form-group col-sm-2" style="width:15%">
+				<input type="text" class="form-control" v-model="q.mobile" @keyup.enter="query" placeholder="手机号">
+			</div>
+			<!-- <div class="form-group col-sm-2" style="width:18%">
+				<input type="text" class="form-control" v-model="q.msgid" @keyup.enter="query" placeholder="短信ID">
+			</div> -->
+			<div class="form-group col-sm-2" style="width:12%">
+				<select class="form-control" v-model="q.status" @keyup.enter="query" placeholder="状态">
+					<option value="">全部</option>
+					<option value="1">成功</option>
+					<option value="0">失败</option>
+                </select>
+			</div>
+			<div class="form-group col-sm-2" style="width:12%">
+				<input type="text" class="form-control" v-model="q.channel_code" @keyup.enter="query" placeholder="通道编号">
+			</div>
+			<div class="form-group col-sm-2" style="width:12%">
+				<select class="form-control" v-model="q.type" @keyup.enter="query" placeholder="接口类型">
+					<option value="">全部</option>
+					<option value="DJ">点集</option>
+                </select>
+			</div>
+			<div class="form-group col-sm-2" style="width:12%">
+				<input type="text" class="form-control" v-model="q.number" @keyup.enter="query" placeholder="模板编号">
+			</div>
+			<a class="btn btn-default" @click="query">查询</a>
+<!-- 			<a class="btn btn-primary" @click="retryBatchSend"><i class="fa fa-plus"></i>&nbsp;重发</a> -->
+			<!-- <a v-if="hasPermission('syssmsrecord:save')" class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+			<a v-if="hasPermission('syssmsrecord:update')" class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+			<a v-if="hasPermission('syssmsrecord:delete')" class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+			 -->
+		</div>
+	    <table id="jqGrid"></table>
+	    <div id="jqGridPager"></div>
+    </div>
+    
+    <div v-show="!showList" class="panel panel-default">
+		<div class="panel-heading">{{title}}</div>
+		<form class="form-horizontal">
+			<div class="form-group">
+			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="sysSmsRecord.status" placeholder=""/>
+			    </div>
+			</div>
+			<div class="form-group">
+			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="sysSmsRecord.mobile" placeholder=""/>
+			    </div>
+			</div>
+			<div class="form-group">
+			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="sysSmsRecord.sysNumber" placeholder=""/>
+			    </div>
+			</div>
+			<div class="form-group">
+			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="sysSmsRecord.remark" placeholder=""/>
+			    </div>
+			</div>
+			<div class="form-group">
+			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="sysSmsRecord.sendTime" placeholder=""/>
+			    </div>
+			</div>
+			<div class="form-group">
+			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="sysSmsRecord.cId" placeholder=""/>
+			    </div>
+			</div>
+			<div class="form-group">
+			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="sysSmsRecord.serviceNo" placeholder=""/>
+			    </div>
+			</div>
+			<div class="form-group">
+			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="sysSmsRecord.content" placeholder=""/>
+			    </div>
+			</div>
+			<div class="form-group">
+			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="sysSmsRecord.sendIp" placeholder=""/>
+			    </div>
+			</div>
+			<div class="form-group">
+			   	<div class="col-sm-2 control-label">短信服提交返回的msgid，这个工状态报告匹配时使用</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="sysSmsRecord.msgId" placeholder="短信服提交返回的msgid，这个工状态报告匹配时使用"/>
+			    </div>
+			</div>
+			<div class="form-group">
+			   	<div class="col-sm-2 control-label">短信通道编码，详见短信相关资料文档；</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="sysSmsRecord.channelCode" placeholder="短信通道编码，详见短信相关资料文档；"/>
+			    </div>
+			</div>
+			<div class="form-group">
+			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="sysSmsRecord.retryNumber" placeholder=""/>
+			    </div>
+			</div>
+			<div class="form-group">
+			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="sysSmsRecord.type" placeholder=""/>
+			    </div>
+			</div>
+			<div class="form-group">
+			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="sysSmsRecord.number" placeholder=""/>
+			    </div>
+			</div>
+			<div class="form-group">
+			   	<div class="col-sm-2 control-label">调用接口耗时</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="sysSmsRecord.timeConsuming" placeholder="调用接口耗时"/>
+			    </div>
+			</div>
+			<div class="form-group">
+			   	<div class="col-sm-2 control-label">发送消息后，点集通返回状态</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="sysSmsRecord.smsState" placeholder="发送消息后，创蓝或乾景通返回状态"/>
+			    </div>
+			</div>
+			<div class="form-group">
+			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="sysSmsRecord.receiveState" placeholder=""/>
+			    </div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2 control-label"></div> 
+				<input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
+				&nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script src="../public/js/generator/syssmsrecord.js"></script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.fintecher.sms.dao.SysSmsContentDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="cn.fintecher.sms.entity.SysSmsContentEntity" id="sysSmsContentMap">
+        <result property="id" column="id"/>
+        <result property="content" column="content"/>
+        <result property="number" column="number"/>
+        <result property="sendTime" column="send_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="type" column="type"/>
+        <result property="status" column="status"/>
+        <result property="aim" column="aim"/>
+        <result property="remark" column="remark"/>
+        <result property="universal" column="universal"/>
+    </resultMap>
+	<!-- 查询条件 -->
+	<sql id="where_Clause">
+		where 1=1
+	<trim  suffixOverrides="," >
+		<if test="id != null" >
+		    and id !=  #{id}
+		</if>
+		<if test="status != null" >
+		    and status =  #{status}
+		</if>
+		<if test="number != null and number != ''" >
+		    and number =  #{number}
+		</if>
+	</trim>
+	</sql>
+	<select id="queryObject" resultType="cn.fintecher.sms.entity.SysSmsContentEntity">
+		select * from sys_sms_content where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="cn.fintecher.sms.entity.SysSmsContentEntity">
+		select * from sys_sms_content
+		<include refid="where_Clause"/>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from sys_sms_content 
+		<include refid="where_Clause"/>
+	</select>
+	 
+	<insert id="save" parameterType="cn.fintecher.sms.entity.SysSmsContentEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_sms_content
+		(
+			`content`, 
+			`number`, 
+			`send_time`, 
+			`update_time`, 
+			`type`, 
+			`status`, 
+			`aim`, 
+			`remark`,
+			`universal`
+		)
+		values
+		(
+			#{content}, 
+			#{number}, 
+			#{sendTime}, 
+			#{updateTime}, 
+			#{type}, 
+			#{status}, 
+			#{aim}, 
+			#{remark},
+			#{universal}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="cn.fintecher.sms.entity.SysSmsContentEntity">
+		update sys_sms_content 
+		<set>
+			<if test="content != null">`content` = #{content}, </if>
+			<if test="sendTime != null">`send_time` = #{sendTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="type != null">`type` = #{type}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="aim != null">`aim` = #{aim}, </if>
+			<if test="remark != null">`remark` = #{remark},</if>
+			<if test="universal != null">`universal` = #{universal}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from sys_sms_content where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from sys_sms_content where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<!-- sys_sms_content table all fields -->
+	<sql id="Base_Column_List">
+		id,content,number,send_time as sendTime,update_time as updateTime,type,status,aim,remark,universal
+	</sql>
+	
+	<select id="findByNumber" parameterType="java.lang.String" resultMap="sysSmsContentMap" >
+		select
+		<include refid="Base_Column_List"/>
+		from sys_sms_content where number = #{number}
+	</select>
+
+</mapper>

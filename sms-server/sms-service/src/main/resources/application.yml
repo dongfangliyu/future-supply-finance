@@ -1,0 +1,22 @@
+spring:
+    # 环境 dev|test|prod
+    profiles:
+        active: @profiles.active@
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.jdbc.Driver
+        # jackson时间格式化
+    jackson:
+        time-zone: GMT+8
+        date-format: yyyy-MM-dd HH:mm:ss
+    thymeleaf:
+        cache: false
+    jmx: 
+      default-domain: domain_sms
+
+# Mybatis配置
+mybatis:
+    mapperLocations: classpath:mapper/*.xml
+    configLocation: classpath:mybatis.xml
+  
+

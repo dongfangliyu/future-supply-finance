@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="../public/css/bootstrap.min.css">
+<link rel="stylesheet" href="../public/css/font-awesome.min.css">
+<link rel="stylesheet" href="../public/plugins/jqgrid/ui.jqgrid-bootstrap.css">
+<link rel="stylesheet" href="../public/plugins/ztree/css/metroStyle/metroStyle.css">
+<link rel="stylesheet" href="../public/css/main.css">
+<script src="../public/libs/jquery.min.js"></script>
+<script src="../public/plugins/layer/layer.js"></script>
+<script src="../public/libs/bootstrap.min.js"></script>
+<script src="../public/libs/vue.min.js"></script>
+<script src="../public/plugins/jqgrid/grid.locale-cn.js"></script>
+<script src="../public/plugins/jqgrid/jquery.jqGrid.min.js"></script>
+<script src="../public/plugins/ztree/jquery.ztree.all.min.js"></script>
+<script src="../public/js/common.js"></script>
+</head>
+<body>
+<div id="rrapp" v-cloak>
+	<div v-show="showList">
+		<div class="grid-btn">
+			<div class="form-group col-sm-2">
+				<input type="text" class="form-control" v-model="q.number" @keyup.enter="query" placeholder="编号">
+			</div>
+			<a class="btn btn-default" @click="query">查询</a>
+			<a v-if="hasPermission('syssmscontent:save')" class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+			<a v-if="hasPermission('syssmscontent:update')" class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+			<a v-if="hasPermission('syssmscontent:delete')" class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+		</div>
+	    <table id="jqGrid"></table>
+	    <div id="jqGridPager"></div>
+    </div>
+    
+    <div v-show="!showList" class="panel panel-default">
+		<div class="panel-heading">{{title}}</div>
+		<validator name="validation">
+		<form class="form-horizontal" novalidate>
+			<div class="form-group">
+			   	<div class="col-sm-2 control-label">模板内容</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="sysSmsContent.content" placeholder="" maxlength="200"/>
+			    </div>
+			</div>
+			<div class="form-group">
+			   	<div class="col-sm-2 control-label">编号</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="sysSmsContent.number" placeholder=""  maxlength="5"/>
+			    </div>
+			</div>
+			<!--  
+			<div class="form-group">
+			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="sysSmsContent.sendTime" placeholder=""/>
+			    </div>
+			</div>
+			<div class="form-group">
+			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="sysSmsContent.updateTime" placeholder=""/>
+			    </div>
+			</div>-->
+			<div class="form-group">
+			   	<div class="col-sm-2 control-label">适用性</div>
+			   	<div class="col-sm-10">
+			      <select class="form-control" v-model="sysSmsContent.universal" placeholder="">
+						<option value="0">通用</option>
+						<option value="-1">点集</option>
+                  </select>
+			    </div>
+			</div>
+			<!--  <div class="form-group">
+			   	<div class="col-sm-2 control-label">类型</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="sysSmsContent.type" placeholder=""/>
+			    </div>
+			</div>-->
+			<div class="form-group">
+			   	<div class="col-sm-2 control-label">状态</div>
+			   	<div class="col-sm-10">
+			      <select class="form-control" v-model="sysSmsContent.status" placeholder="">
+						<option value="1">有效</option>
+						<option value="0">无效</option>
+                  </select>
+			    </div>
+			</div>
+			<!-- <div class="form-group">
+			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="sysSmsContent.aim" placeholder=""/>
+			    </div>
+			</div>-->
+			<div class="form-group">
+			   	<div class="col-sm-2 control-label">备注</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="sysSmsContent.remark" placeholder="" maxlength="100"/>
+			    </div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2 control-label"></div> 
+				<input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
+				&nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+			</div>
+		</form>
+		</validator>
+	</div>
+</div>
+
+<script src="../public/js/generator/syssmscontent.js"></script>
+</body>
+</html>

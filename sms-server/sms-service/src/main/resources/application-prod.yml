@@ -1,0 +1,12 @@
+#  	redis: 
+#      timeout: 5000
+#       pool:
+#         max-active: 8
+#         max-idle: 8
+#         max-wait: -1
+#         min-idle: 0
+#       cluster:
+#         nodes: 172.16.10.151:6379,172.16.10.152:6379,172.16.10.153:6379,172.16.10.121:6379,172.16.10.204:6379,172.16.10.205:6379 
+#         max-redirects: 3
+#         password: zhiwang.123
+#         timeout: 5000
