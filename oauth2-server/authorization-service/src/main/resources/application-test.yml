@@ -1,0 +1,55 @@
+server:
+  port: 8090
+  contextPath: /authorization-service
+
+#security:
+#  oauth2:
+#    client:
+#      client-id: sparklr
+#      client-secret: secret
+#      scope: read,write
+#      auto-approve-scopes: '.*'
+
+spring:
+  application:
+      name: oauth2-server
+  redis:
+      database: 4
+      host: redis
+      password:
+      port: 6379
+      pool:
+          max-active: 8
+          max-wait: 8
+          min-idle: 0
+          max-idle: 8
+
+#security:
+#  oauth2:
+#    client:
+#      client-id: sparklr
+#      client-secret: secret
+#      scope: read,write
+#      auto-approve-scopes: '.*'
+
+
+#github:
+#  client:
+#    clientId: my-trusted-client-with-secret
+#    clientSecret: somesecret
+#    accessTokenUri: https://localhost:9090/oauth/token
+#    userAuthorizationUri: https://localhost:9090/oauth/authorize
+#    clientAuthenticationScheme: form
+#  resource:
+#    userInfoUri: https://localhost:9090/user
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+
+authorization:
+  manager:
+      url: http://authmanager:8081/authorization-manager
+
+resourceServer:
+  resourceId: authorization-service
