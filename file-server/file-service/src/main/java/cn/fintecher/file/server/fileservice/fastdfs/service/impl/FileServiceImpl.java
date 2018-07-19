@@ -71,7 +71,7 @@ public class FileServiceImpl implements FileService {
             StorePath storePath = FastDFSUtils.getStorePath(fullPath);
             try {
                 byte [] content = fastDFSUtils.downloadFile(storePath);
-                headers.setContentDispositionFormData("attachment", new String(fileName.getBytes("UTF-8"), "ISO-8859-1"));
+                headers.setContentDispositionFormData("attachment", fileName);
                 headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
                 return new ResponseEntity(content, headers, HttpStatus.CREATED);
             } catch (Exception e) {
