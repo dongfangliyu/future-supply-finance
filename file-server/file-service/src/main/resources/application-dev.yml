@@ -5,6 +5,12 @@ spring:
   output:
     ansi:
       enabled: never
+  http:
+    multipart:
+      # 单位文件最大值
+      max-file-size: 10MB
+      # 单次请求的文件总数总大小
+      max-request-size: 50MB
 hystrix:
   command:
     default:
