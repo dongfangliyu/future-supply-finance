@@ -1,0 +1,6 @@
+
+Spring Cloud Eureka 集群搭建
+https://www.cnblogs.com/hfultrastrong/p/8549590.html
+
+Spring Cloud|高可用的Eureka集群服务
+https://www.cnblogs.com/maikucha/p/8027926.html

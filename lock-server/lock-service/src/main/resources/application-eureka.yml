@@ -1,0 +1,36 @@
+server:
+  port: 8087
+
+spring:
+  output:
+    ansi:
+      enabled: never
+  application:
+    #当前应用名称
+    name: lock-service
+
+  redis:
+    ##集群对外暴露的IP
+    host: XXXXXX
+    port: 33379
+    #连接超时时间3秒
+    timeout: 3000
+
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            ##设置连接超时时间 10秒
+            timeoutInMilliseconds: 10000
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    hostname: ${spring.cloud.client.ipAddress}
+  client:
+    serviceUrl:
+      defaultZone: http://peer1:8000/eureka/,http://peer2:8000/eureka/

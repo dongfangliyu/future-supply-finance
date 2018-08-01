@@ -1,0 +1,40 @@
+server:
+  port: 9091
+  contextPath: /
+spring:
+  output:
+    ansi:
+      enabled: never
+  http:
+    multipart:
+      # 单位文件最大值
+      max-file-size: 10MB
+      # 单次请求的文件总数总大小
+      max-request-size: 50MB
+  application:
+    #当前应用名称
+    name: file-service
+
+  #JMX
+  jmx:
+    default-domain: test #JMX域名。
+    enabled: false #将管理bean展示给JMX域。
+    server: mbeanServer #MBeanServer bean名称。
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            ##设置连接超时时间 10秒
+            timeoutInMilliseconds: 10000
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    hostname: ${spring.cloud.client.ipAddress}
+  client:
+    serviceUrl:
+      defaultZone: http://peer1:8000/eureka/,http://peer2:8000/eureka/
