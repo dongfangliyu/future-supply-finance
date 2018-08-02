@@ -53,3 +53,8 @@ authorization:
 
 resourceServer:
   resourceId: authorization-service
+
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false

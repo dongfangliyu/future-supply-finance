@@ -29,4 +29,9 @@ spring:
     testOnBorrow: false
     testOnReturn: false
     poolPreparedStatements: true
-    maxOpenPreparedStatements: 20	
+    maxOpenPreparedStatements: 20
+
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
