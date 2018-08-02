@@ -12,17 +12,17 @@ server:
 
 spring:
   application:
-      name: oauth2-server
+    name: authorization-service
   redis:
-      database: 4
-      host: redis
-      password:
-      port: 6379
-      pool:
-          max-active: 8
-          max-wait: 8
-          min-idle: 0
-          max-idle: 8
+    database: 4
+    host: redis
+    password:
+    port: 6379
+    pool:
+      max-active: 8
+      max-wait: 8
+      min-idle: 0
+      max-idle: 8
 
 #security:
 #  oauth2:
@@ -49,12 +49,16 @@ logging:
 
 authorization:
   manager:
-      url: http://authmanager:8081/authorization-manager
+    url: http://172.16.10.208:8007/api-am/authorization-manager
 
 resourceServer:
   resourceId: authorization-service
 
 eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    hostname: ${spring.cloud.client.ipAddress}
   client:
-    registerWithEureka: false
-    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://peer1:8000/eureka/,http://peer2:8000/eureka/
