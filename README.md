@@ -14,7 +14,7 @@
         organize-server：组织服务
 ### (3)开发环境，部署环境描述以及对应资料的下载地址链接：
         开发环境：
-            Base-Server: 172.16.10.206
+            Base-Server: 172.16.10.114
             
         部署环境：
             服务都是基于SpringBoot技术构建的工程，可以通过JAR包直接发部。而且工程内已作好Dockerfile，
