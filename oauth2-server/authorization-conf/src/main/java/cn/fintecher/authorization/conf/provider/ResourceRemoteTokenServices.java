@@ -35,6 +35,7 @@ import org.springframework.security.crypto.codec.Base64;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.sql.Timestamp;
 import java.util.*;
 
 public class ResourceRemoteTokenServices implements ResourceServerTokenServices {

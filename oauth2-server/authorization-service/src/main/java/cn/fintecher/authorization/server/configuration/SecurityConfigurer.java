@@ -103,7 +103,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 ////                ,"/oauth/uncache_approvals"
 ////                , "/oauth/cache_approvals");
 //
-//        web.ignoring().antMatchers("/oauth/token"
+//        web.ignoring().antMatchers("/"
 //                ,"/oauth/authorize");
 //    }
 
