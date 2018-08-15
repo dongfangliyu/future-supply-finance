@@ -66,6 +66,5 @@
   
 	<modules>
 		<module>eureka-server</module>
-		<module>zuul_server</module>
 	</modules>
 </project>
