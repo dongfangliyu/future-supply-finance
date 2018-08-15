@@ -15,7 +15,8 @@
         <module>file-server</module>
         <module>organize-server</module>
         <module>lock-server</module>
-        <module>eureka_zuul</module>
+<!--         <module>eureka_zuul</module> -->
+    	<module>eureka_zuul</module>
     </modules>
 
     <properties>

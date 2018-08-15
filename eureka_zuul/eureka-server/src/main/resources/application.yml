@@ -1,0 +1,10 @@
+# 环境 dev|test|prod
+spring:  
+  profiles:  
+    active: test
+
+
+
+
+
+

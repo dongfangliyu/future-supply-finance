@@ -1,19 +1,15 @@
 server:
-  port: 8761
-
-info:
-  component: Eureka Server
-
+  port: 8081
+spring:
+  application:
+    name: cloud-server-eureka
 eureka:
   instance:
-    prefer-ip-address: true
-    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
-    hostname: ${spring.cloud.client.ipAddress}
-#    hostname: localhost
+    hostname: localhost
   client:
-    #由于该应用为注册中心,所以设置为false,代表不向注册中心注册自己
-    registerWithEureka: false
-    #由于注册中心的职责就是维护服务实例,它并不需要去检索服务,所以也设置为false
-    fetchRegistry: false
+    register-with-eureka: false
+    fetch-registry: false
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    enable-self-preservation: false
