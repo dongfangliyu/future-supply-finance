@@ -3,7 +3,7 @@
   <parent>
     <groupId>cn.fintecher</groupId>
     <artifactId>eureka_zuul</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
   </parent>
   <artifactId>eureka-server</artifactId>
   
@@ -49,37 +49,31 @@
 			</dependency>
     </dependencies>
 </dependencyManagement>
-  
-  <build>
-		<!--指定文件名-->
-		<finalName>${project.artifactId}</finalName>
+
+	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<!-- tag::plugin[]  Spotify 的 docker-maven-plugin 插件是用maven插件方式构建docker镜像的-->
-			<!--imageName指定了镜像的名字，本例为 forep/eureka-server
-			dockerDirectory指定 Dockerfile 的位置
-			resources是指那些需要和 Dockerfile 放在一起，在构建镜像时使用的文件，一般应用 jar 包需要纳入-->
 			<plugin>
 				<groupId>com.spotify</groupId>
 				<artifactId>docker-maven-plugin</artifactId>
-				<version>0.4.3</version>
 				<configuration>
-					<imageName>${docker.image.prefix}/${project.artifactId}</imageName>
-					<dockerDirectory>src/main/docker</dockerDirectory>
+					<imageName>${docker.registryUrl}/${project.name}:${project.version}</imageName>
+					<imageTags>
+						<imageTag>${docker.imageTag}</imageTag>
+					</imageTags>
+					<dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
+					<skipDockerBuild>false</skipDockerBuild>
 					<resources>
 						<resource>
-							<targetPath>/</targetPath>
 							<directory>${project.build.directory}</directory>
 							<include>${project.build.finalName}.jar</include>
 						</resource>
 					</resources>
 				</configuration>
 			</plugin>
-			<!-- end::plugin[] -->
 		</plugins>
 	</build>
-	
 </project>
