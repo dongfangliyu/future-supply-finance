@@ -1,6 +1,8 @@
 spring:
   profiles:
     active: dev
+  application:
+    name: loan-file-service
 
 # ===================================================================
 # 分布式文件系统FDFS配置

@@ -22,5 +22,5 @@ hystrix:
 
 eureka:
   client:
-    registerWithEureka: false
-    fetchRegistry: false
+    serviceUrl:
+       defaultZone: http://172.16.10.114:8001/eureka
